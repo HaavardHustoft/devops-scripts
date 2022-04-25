@@ -2,7 +2,7 @@
 # Script source: https://computingforgeeks.com/deploy-kubernetes-cluster-on-ubuntu-with-kubeadm/
 apt update
 apt -y full-upgrade
-[ -f /var/run/reboot-required ] && reboot -f
+#[ -f /var/run/reboot-required ] && reboot -f
 
 apt -y install curl apt-transport-https gnupg
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
@@ -50,3 +50,19 @@ EOF
 systemctl daemon-reload 
 systemctl restart docker
 systemctl enable docker
+
+VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest|grep tag_name | cut -d '"' -f 4)
+echo $VER
+
+https://github.com/Mirantis/cri-dockerd/releases/download/${VER}/cri-dockerd-${VER}-linux-arm64.tar.gz
+wget ${VER}-linux-arm64.tar.gz
+mv cri-dockerd /usr/local/bin/
+
+wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
+wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
+mv cri-docker.socket cri-docker.service /etc/systemd/system/
+sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+
+systemctl daemon-reload
+systemctl enable cri-docker.service
+systemctl enable --now cri-docker.socket
