@@ -83,10 +83,10 @@ sudo rm -r /var/run/containerd/containerd.sock
 sudo kubeadm init \
   --pod-network-cidr=192.168.0.0/16
 
-mkdir -p $HOME/.kube
+sudo mkdir -p $HOME/.kube
 sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-sudo kubectl create namespace jupyter
+kubectl create namespace jupyter
 
 
