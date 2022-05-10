@@ -78,6 +78,8 @@ sudo systemctl enable --now cri-docker.socket
 sudo systemctl enable kubelet
 sudo kubeadm config images pull
 
+sudo rm -r /run/containerd
+
 sudo kubeadm init \
   --pod-network-cidr=192.168.0.0/16
 
