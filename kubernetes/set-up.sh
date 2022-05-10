@@ -14,3 +14,4 @@ sudo kubectl patch storageclass local-path -n jupyter -p '{"metadata": {"annotat
 sudo kubectl taint nodes $name node-role.kubernetes.io/control-plane-
 sudo kubectl taint nodes $name node-role.kubernetes.io/master-
 sudo helm upgrade --cleanup-on-fail   --install jupyterhub jupyterhub/jupyterhub   --namespace jupyter   --create-namespace   --version=1.2.0   --values devops-scripts/kubernetes/config.yaml
+sudo kubectl patch svc proxy-public -n jupyter -p "{\"spec\": {\"type\": \"LoadBalancer\", \"externalIPs\":[\"$ip\"]}}"
