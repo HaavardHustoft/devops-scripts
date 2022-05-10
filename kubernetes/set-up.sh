@@ -13,4 +13,4 @@ sudo kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provi
 sudo kubectl patch storageclass local-path -n jupyter -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 sudo kubectl taint nodes $name node-role.kubernetes.io/control-plane-
 sudo kubectl taint nodes $name node-role.kubernetes.io/master-
-sudo helm upgrade --cleanup-on-fail   --install jupyterhub jupyterhub/jupyterhub   --namespace jupyter   --create-namespace   --version=1.2.0   --values config.yaml
+sudo helm upgrade --cleanup-on-fail   --install jupyterhub jupyterhub/jupyterhub   --namespace jupyter   --create-namespace   --version=1.2.0   --values devops-scripts/kubernetes/config.yaml
