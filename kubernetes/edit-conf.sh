@@ -1,5 +1,5 @@
 #!bin/bash
-
+#Usage: sudo sh edit-conf ip
 cert=$(sudo cat /etc/kubernetes/admin.conf | grep "certificate-authority")
 server=$(sudo cat /etc/kubernetes/admin.conf | grep "server")
 
