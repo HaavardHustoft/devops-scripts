@@ -3,6 +3,12 @@ ip=$(hostname -I | head -n1 | cut -d " " -f1)
 cert=$(sudo cat /etc/kubernetes/admin.conf | grep "certificate-authority")
 server=$(sudo cat /etc/kubernetes/admin.conf | grep "server")
 
+sudo mkdir -p $HOME/.kube
+sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl create namespace jupyter
+
 ./devops-scripts/kubernetes/add-user.sh -u tim
 ./devops-scripts/kubernetes/add-user.sh -u alice
 ./devops-scripts/kubernetes/add-user.sh -u janet
